@@ -1,16 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8"/>
-    <link href="/favicon.ico" rel="icon" type="image/x-icon">
-    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
-    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
-    <meta content="EYP Calls" name="application-name">
-    <title>EYP Calls</title>
+    <title>EYP Calls list</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+    <link rel="canonical" href="https://eyp-calls.tk/"/>
+    <meta content="EYP Calls list" name="application-name"/>
+    <meta name="description"
+          content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position."/>
+    <meta name="author" content="Matěj Volf">
+    <meta property="og:image" content="https://eyp-calls.tk/icon.png">
+    <meta property="og:description"
+          content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position.">
+    <meta property="og:title" content="EYP Calls list">
     <link href="https://cdn.jsdelivr.net/npm/datatables.net-dt@1/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         html, body {
             margin: 0 !important;
             padding: 0 !important;
@@ -24,23 +36,34 @@
         #matrix {
             border-collapse: collapse;
             margin-bottom: 1em;
+            height: 1px; /* ugly hack to have labels fill full cells */
         }
 
         #matrix > tbody > tr > * {
             text-align: center;
             border: 1px solid black;
+            height: 100%;
+        }
+
+        #matrix > tbody > tr > th {
             padding: 5px;
+        }
+
+        #matrix > tbody > tr > td {
+            padding: 0;
         }
 
         #matrix > tbody > tr:not(#matrix-headrow) > th {
             text-align: right;
         }
 
-        #matrix > tbody > tr:not(#matrix-headrow) > td > div.cell-wrap {
+        #matrix .cell-wrap {
             font-family: "Roboto Mono", sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 100%;
+            padding: 5px;
         }
 
         .null-cell {
@@ -125,7 +148,7 @@
           const et = eventTypes[j];
           const countString = `(${count})`.padStart(5, " ").replace(" ", "&nbsp;");
           const id = matrixSelector(pos, et);
-          row += `<td><div class="cell-wrap"><input type="checkbox" ${localStorage.getItem(id) !== "off" ? "checked" : ""} id="${id}" onchange="processCheckChange(this)" />${countString}</div></td>`
+          row += `<td><label class="cell-wrap" for="${id}"><input type="checkbox" ${localStorage.getItem(id) !== "off" ? "checked" : ""} id="${id}" onchange="processCheckChange(this)" />${countString}</label></td>`
         }
       }
 

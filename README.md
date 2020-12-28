@@ -1,5 +1,8 @@
-# eyp-calls
-Scraping, processing and presentation of participant calls from EYP Members Platform
+# [eyp-calls.tk](https://eyp-calls.tk)
+
+A simple list of all calls that are currently up on the [Members Platform](https://members.eyp.org), allows for sorting
+and filtering by event type and position. There's not much else to say, [have a look at it yourself](https://eyp-calls.tk)
+yourself. The info below is mainly for developers.
 
 ## Structure
 
