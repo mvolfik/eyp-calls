@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon">
+    <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <meta content="EYP Calls" name="application-name">
+    <title>EYP Calls</title>
+    <link href="https://cdn.jsdelivr.net/npm/datatables.net-dt@1/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0;
+        }
+
+        #loading, main {
+            margin: 5px 1em 1em;
+        }
+
+        #matrix {
+            border-collapse: collapse;
+            margin-bottom: 1em;
+        }
+
+        #matrix > tbody > tr > * {
+            text-align: center;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        #matrix > tbody > tr:not(#matrix-headrow) > th {
+            text-align: right;
+        }
+
+        #matrix > tbody > tr:not(#matrix-headrow) > td > div.cell-wrap {
+            font-family: "Roboto Mono", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .null-cell {
+            border: none !important;
+        }
+
+        #info {
+            float: right;
+            font-size: 0.85em;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<p id="info">
+    last code update 2020-12-28. something doesn’t work? hit me up:
+    <a href="mailto:volf@eyp.cz" target="_blank">volf@eyp.cz</a>
+</p>
+<div style="height: 1px;clear: both"></div>
+<p id="loading">Loading data, please wait&hellip;</p>
+<main style="display: none">
+    <p style="margin-top: 5px">
+        The calls are automatically downloaded from the Members Platform every eight hours. Currently loaded data is
+        from <span id="last-load">unknown time</span> UTC. Want more info? See the
+        <a href="https://github.com/mvolfik/eyp-calls" target="_blank">GitHub repository</a> of this project.
+    </p>
+    <p>Filtering matrix:</p>
+    <table id="matrix">
+        <tr id="matrix-headrow">
+            <th class="null-cell"></th>
+        </tr>
+    </table>
+    <table id="table" style="width: 100%"></table>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"
+        type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/datatables.net@1/js/jquery.dataTables.min.js"></script>
+<script type="application/javascript">
+  let table;
+  const positions = [];
+  const eventTypes = [];
+  const matrix = []; // matrix[positionIndex][eventTypeIndex]
+
+  function matrixSelector(pos, et) {
+    return `matrix-cb-${pos.replaceAll(" ", "_")}-${et.replaceAll(" ", "_")}`;
+  }
+
+  function processCheckChange(el) {
+    localStorage.setItem(el.id, el.checked ? "on" : "off");
+    table.draw();
+  }
+
+  function createFilterMatrix() {
+    table.column(1).data().unique().sort().each((x) => eventTypes.push(x));
+    table.column(0).data().unique().sort().each((x) => {
+      positions.push(x);
+      const row = [];
+      for (let i = 0; i < eventTypes.length; i++) {
+        row.push(0);
+      }
+      matrix.push(row);
+    });
+    table.data().each((row) => {
+      matrix[positions.indexOf(row["position"])][eventTypes.indexOf(row["event_type"])] += 1;
+    });
+
+    const headrow = $("#matrix-headrow");
+    const mt = $("#matrix")
+    for (const et of eventTypes) {
+      headrow.append(`<th>${et}</th>`);
+    }
+
+    for (const i in positions) {
+      const pos = positions[i];
+      let row = `<th>${pos}</th>`
+
+      for (const j in eventTypes) {
+        const count = matrix[i][j];
+        if (count === 0) {
+          row += `<td>—</td>`
+        } else {
+          const et = eventTypes[j];
+          const countString = `(${count})`.padStart(5, " ").replace(" ", "&nbsp;");
+          const id = matrixSelector(pos, et);
+          row += `<td><div class="cell-wrap"><input type="checkbox" ${localStorage.getItem(id) !== "off" ? "checked" : ""} id="${id}" onchange="processCheckChange(this)" />${countString}</div></td>`
+        }
+      }
+
+      mt.append(`<tr>${row}</tr>`)
+    }
+  }
+
+
+  function processCallsData(data) {
+    $("#last-load").text(data["last_scrape"]);
+    console.log("Data loaded successfully, processing");
+    const calls = data["calls"];
+    table = $("#table").DataTable({
+      data: calls,
+      columns: [
+        {title: "Position", data: "position", searchable: false},
+        {title: "Event type", data: "event_type", searchable: false},
+        {title: "Country", data: "event_country"},
+        {title: "City", data: "event_city"},
+        {title: "Application deadline", data: "application_end", searchable: false},
+        {title: "Session start date", data: "event_start", searchable: false},
+        {
+          title: "Platform link",
+          data: (data, type) => {
+            if (type === "display")
+              return `<a href="${data["url"]}" target="_blank">${data["name"]}</a>`
+            else
+              return data["name"]
+          },
+          sortable: false
+        }
+      ],
+      order: [[4, "asc"]],
+      paginate: false,
+    });
+    createFilterMatrix();
+    $.fn.dataTable.ext.search.push(function (_, __, ___, data) {
+      const sel = matrixSelector(data["position"], data["event_type"])
+      return document.getElementById(sel).checked;
+    });
+    table.draw();
+    $("#loading").hide();
+    $("main").show();
+    console.log("Done");
+  }
+</script>
+<script src="https://eyp-calls.tk/data.jsonp" type="application/javascript"></script>
+</body>
+</html>

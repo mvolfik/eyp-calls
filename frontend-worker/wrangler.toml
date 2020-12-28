@@ -1,0 +1,19 @@
+name = "eyp-calls"
+type = "javascript"
+account_id = "5226d1d2ab2fd3f224b592dd0da3f87d"
+
+workers_dev = true
+routes = ["https://eyp-calls.tk/*", "https://www.eyp-calls.tk/*"]
+zone_id = "f42bfe0fe0f7cd65f2db853c992de943"
+
+[[kv_namespaces]]
+binding = "STORAGE"
+id = "dbf33e7bcfbe4c88bb6baa5911323634"
+preview_id = "b28e5168074340299e669e1e1f234e0f"
+
+[triggers]
+crons = ["59 7/8 * * *"]
+
+[site]
+bucket = "./static"
+entry-point = "./src"
