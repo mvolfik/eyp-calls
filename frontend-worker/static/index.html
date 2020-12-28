@@ -17,7 +17,7 @@
     <meta property="og:title" content="EYP Calls list">
     <link href="https://cdn.jsdelivr.net/npm/datatables.net-dt@1/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -27,6 +27,11 @@
             margin: 0 !important;
             padding: 0 !important;
             border: 0;
+        }
+
+        body {
+            font-size: 0.95em;
+            font-family: "Roboto", sans-serif;
         }
 
         #loading, main {
@@ -64,6 +69,7 @@
             justify-content: center;
             height: 100%;
             padding: 5px;
+            white-space: nowrap;
         }
 
         .null-cell {
@@ -82,13 +88,16 @@
     last code update 2020-12-28. something doesn’t work? hit me up:
     <a href="mailto:volf@eyp.cz" target="_blank">volf@eyp.cz</a>
 </p>
-<div style="height: 1px;clear: both"></div>
+<p style="clear: both; margin-left: 1em;">
+    This is a simple list of all calls that are currently up on the EYP Members Platform. It allows simple sorting and
+    filtering by event type and position. Want more info (mostly for developers)? See the
+    <a href="https://github.com/mvolfik/eyp-calls" target="_blank">GitHub repository</a> of this project.
+</p>
 <p id="loading">Loading data, please wait&hellip;</p>
 <main style="display: none">
     <p style="margin-top: 5px">
         The calls are automatically downloaded from the Members Platform every eight hours. Currently loaded data is
-        from <span id="last-load">unknown time</span> UTC. Want more info? See the
-        <a href="https://github.com/mvolfik/eyp-calls" target="_blank">GitHub repository</a> of this project.
+        from <span id="last-load">unknown time</span> UTC.
     </p>
     <p>Filtering matrix:</p>
     <table id="matrix">
