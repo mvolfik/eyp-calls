@@ -118,9 +118,10 @@ async function serveStatic(event) {
 
 
 async function serveData(padding) {
-  if (calls === undefined || calls === null) {
+  const newLastJobFinished = new Date(await STORAGE.get("last_job_finished"));
+  if (newLastJobFinished > lastJobFinished || calls === undefined || calls === null) {
     calls = JSON.parse(await STORAGE.get("calls"));
-    lastJobFinished = new Date(await STORAGE.get("last_job_finished"));
+    lastJobFinished = newLastJobFinished;
   }
   let data = JSON.stringify({
     "last_scrape": formatDateTime(lastJobFinished),
