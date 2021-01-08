@@ -203,7 +203,23 @@
     $("main").show();
     console.log("Done");
   }
+
+  function processError() {
+    $("#loading").innerText("Something went wrong during data loading. Reload this page to try again");
+  }
+
+  /**
+   * @param {Response} response
+   */
+  function processResponse(response) {
+    if (!response.ok) {
+      processError()
+    } else {
+      response.json().then(processCallsData).catch(processError)
+    }
+  }
+
+  fetch("https://eyp-calls.tk/data.json").then(processResponse).catch(processError)
 </script>
-<script src="https://eyp-calls.tk/data.jsonp" type="application/javascript"></script>
 </body>
 </html>

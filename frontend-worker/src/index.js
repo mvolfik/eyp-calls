@@ -45,9 +45,7 @@ addEventListener('fetch', event => {
 
     const url = new URL(event.request.url);
     if (url.pathname === "/data.json") {
-      event.respondWith(serveData(false))
-    } else if (url.pathname === "/data.jsonp") {
-      event.respondWith(serveData(true))
+      event.respondWith(serveData())
     } else if (url.pathname === "/force-refresh" && event.request.headers.get("X-Admin-Key") === ADMIN_SECRET) {
       event.respondWith(waitForScrape());
     } else {
@@ -117,7 +115,7 @@ async function serveStatic(event) {
 // endregion
 
 
-async function serveData(padding) {
+async function serveData() {
   const newLastJobFinished = new Date(await STORAGE.get("last_job_finished"));
   if (newLastJobFinished > lastJobFinished || calls === undefined || calls === null) {
     calls = JSON.parse(await STORAGE.get("calls"));
@@ -128,10 +126,6 @@ async function serveData(padding) {
     "calls": calls
   })
   let contentType = "application/json;charset=UTF-8"
-  if (padding) {
-    data = "processCallsData(" + data + ");";
-    contentType = "application/javascript;charset=UTF-8"
-  }
   return new Response(data, {
     status: 200,
     headers: {

@@ -46,14 +46,8 @@ Contributions are welcome, hit me up via [mail](mailto:volf@eyp.cz) or [Telegram
 ### Usage as a data source
 
 Don't want to go through the hassle of scraping yourself, but think you could deliver a better presentation? This is
-possible too! Build your own app using the following data endpoints:
-
-[JSONP](https://eyp-calls.tk/data.jsonp) – Padded JSON (see [wiki](https://en.wikipedia.org/wiki/JSONP)) – solves the
-issues with cross-origin requests: the data is wrapped in a function call, so you just define the
-`processCallsData(data)` callback and then load the endpoint as a normal JavaScript. The callback is called with the
-data as an only argument.
-
-[JSON](https://eyp-calls.tk/data.json) – a normal data format
+possible too! Build your own app using the JSON endpoint at 
+[`https://eyp-calls.tk/data.json`](https://eyp-calls.tk/data.json)
 
 I'm not a frontend dev, so I'll be happy to ditch this presentation, keep only the data source and provide a link to
 your app.
