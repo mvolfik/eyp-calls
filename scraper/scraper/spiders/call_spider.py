@@ -3,6 +3,7 @@ from datetime import datetime, timezone, timedelta
 
 deadlineshift = timedelta(hours=23, minutes=59)
 
+
 class CallSpider(scrapy.Spider):
     name = "call_spider"
     allowed_domains = ["members.eyp.org"]

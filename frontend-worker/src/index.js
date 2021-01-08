@@ -7,7 +7,7 @@ import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
  * 2. we will return an error message on exception in your Response rather
  *    than the default 404.html page.
  */
-const DEBUG = false
+const DEBUG = false;
 
 /* global STORAGE, APIKEY, ADMIN_SECRET */
 const PROJECT_ID = "487035";
@@ -38,7 +38,7 @@ addEventListener('scheduled', event => {
   event.waitUntil(
     scrapeNewData()
   )
-})
+});
 
 addEventListener('fetch', event => {
   try {
@@ -62,12 +62,12 @@ addEventListener('fetch', event => {
     }
     event.respondWith(new Response('500 Internal Server Error', {status: 500, headers: {"Content-type": "text/plain"}}))
   }
-})
+});
 
 // this is some boilerplate for the worker sites I don't understand that much. Skip to serveData function and below
 // region boilerplate
 async function serveStatic(event) {
-  let options = {}
+  let options = {};
 
   /**
    * You can add custom logic to how we fetch your assets
@@ -83,15 +83,15 @@ async function serveStatic(event) {
       }
     }
 
-    const page = await getAssetFromKV(event, options)
+    const page = await getAssetFromKV(event, options);
 
     // allow headers to be altered
-    const response = new Response(page.body, page)
+    const response = new Response(page.body, page);
 
-    response.headers.set('X-XSS-Protection', '1; mode=block')
-    response.headers.set('X-Content-Type-Options', 'nosniff')
-    response.headers.set('X-Frame-Options', 'DENY')
-    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+    response.headers.set('X-XSS-Protection', '1; mode=block');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
     return response
 
@@ -101,7 +101,7 @@ async function serveStatic(event) {
       try {
         let notFoundResponse = await getAssetFromKV(event, {
           mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
-        })
+        });
 
         return new Response(notFoundResponse.body, {...notFoundResponse, status: 404})
       } catch (e) {
@@ -124,8 +124,8 @@ async function serveData() {
   let data = JSON.stringify({
     "last_scrape": formatDateTime(lastJobFinished),
     "calls": calls
-  })
-  let contentType = "application/json;charset=UTF-8"
+  });
+  let contentType = "application/json;charset=UTF-8";
   return new Response(data, {
     status: 200,
     headers: {
@@ -145,8 +145,8 @@ async function scrapeNewData() {
   }
 
   const req = await fetch(`https://storage.scrapinghub.com/items/${jobID}?apikey=${APIKEY}`,
-    {headers: {"Accept": "application/json"}})
-  const items = await req.json()
+    {headers: {"Accept": "application/json"}});
+  const items = await req.json();
   lastJobFinished = new Date(jobMeta["finished_time"]);
   calls = items;
   await Promise.all([
@@ -172,11 +172,11 @@ async function startImport() {
 async function waitForJobComplete(jobID) {
   console.log("Polling");
   while (true) {
-    await sleep(5000)
-    console.log("Poll...")
+    await sleep(5000);
+    console.log("Poll...");
     const req = await fetch(`https://storage.scrapinghub.com/jobs/${jobID}?apikey=${APIKEY}`,
-      {headers: {"Accept": "application/json"}})
-    const data = (await req.json())[0]
+      {headers: {"Accept": "application/json"}});
+    const data = (await req.json())[0];
     if (data["state"] === "finished") {
       return data
     }

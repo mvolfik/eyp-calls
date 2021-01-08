@@ -12,9 +12,8 @@ BOT_NAME = "scraper"
 SPIDER_MODULES = ["scraper.spiders"]
 NEWSPIDER_MODULE = "scraper.spiders"
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Call scraper (+https://www.eyp-calls.tk)'
+USER_AGENT = "Call scraper (+https://www.eyp-calls.tk)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True

@@ -1,7 +1,8 @@
 # [eyp-calls.tk](https://eyp-calls.tk)
 
 A simple list of all calls that are currently up on the [Members Platform](https://members.eyp.org), allows for sorting
-and filtering by event type and position. There's not much else to say, [have a look at it yourself](https://eyp-calls.tk)
+and filtering by event type and position. There's not much else to
+say, [have a look at it yourself](https://eyp-calls.tk)
 yourself. The info below is mainly for developers.
 
 ## Structure
@@ -41,12 +42,13 @@ wrangler preview --watch
 
 ## Developers of EYP
 
-Contributions are welcome, hit me up via [mail](mailto:volf@eyp.cz) or [Telegram](https://t.me/mvolfik) if you have questions or ideas
+Contributions are welcome, hit me up via [mail](mailto:volf@eyp.cz) or [Telegram](https://t.me/mvolfik) if you have
+questions or ideas
 
 ### Usage as a data source
 
 Don't want to go through the hassle of scraping yourself, but think you could deliver a better presentation? This is
-possible too! Build your own app using the JSON endpoint at 
+possible too! Build your own app using the JSON endpoint at
 [`https://eyp-calls.tk/data.json`](https://eyp-calls.tk/data.json)
 
 I'm not a frontend dev, so I'll be happy to ditch this presentation, keep only the data source and provide a link to

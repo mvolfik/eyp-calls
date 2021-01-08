@@ -6,15 +6,15 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
     <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
-    <link rel="canonical" href="https://eyp-calls.tk/"/>
+    <link href="https://eyp-calls.tk/" rel="canonical"/>
     <meta content="EYP Calls list" name="application-name"/>
-    <meta name="description"
-          content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position."/>
-    <meta name="author" content="Matěj Volf">
-    <meta property="og:image" content="https://eyp-calls.tk/icon.png">
-    <meta property="og:description"
-          content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position.">
-    <meta property="og:title" content="EYP Calls list">
+    <meta content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position."
+          name="description"/>
+    <meta content="Matěj Volf" name="author">
+    <meta content="https://eyp-calls.tk/icon.png" property="og:image">
+    <meta content="A simple list of all calls that are currently up on the EYP Members Platform, allows for sorting and filtering by event type and position."
+          property="og:description">
+    <meta content="EYP Calls list" property="og:title">
     <link href="https://cdn.jsdelivr.net/npm/datatables.net-dt@1/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
@@ -140,14 +140,14 @@
     });
 
     const headrow = $("#matrix-headrow");
-    const mt = $("#matrix")
+    const mt = $("#matrix");
     for (const et of eventTypes) {
       headrow.append(`<th>${et}</th>`);
     }
 
     for (const i in positions) {
       const pos = positions[i];
-      let row = `<th>${pos}</th>`
+      let row = `<th>${pos}</th>`;
 
       for (const j in eventTypes) {
         const count = matrix[i][j];
@@ -183,7 +183,7 @@
           title: "Platform link",
           data: (data, type) => {
             if (type === "display")
-              return `<a href="${data["url"]}" target="_blank">${data["name"]}</a>`
+              return `<a href="${data["url"]}" target="_blank">${data["name"]}</a>`;
             else
               return data["name"]
           },
@@ -195,7 +195,7 @@
     });
     createFilterMatrix();
     $.fn.dataTable.ext.search.push(function (_, __, ___, data) {
-      const sel = matrixSelector(data["position"], data["event_type"])
+      const sel = matrixSelector(data["position"], data["event_type"]);
       return document.getElementById(sel).checked;
     });
     table.draw();
