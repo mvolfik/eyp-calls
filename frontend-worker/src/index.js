@@ -18,10 +18,16 @@ let calls;
 
 
 function formatDate(d) {
+  if (isNaN(d.getDate())) {
+    return "unknown";
+  }
   return `${d.getUTCFullYear().toString().padStart(4, "0")}-${(d.getUTCMonth() + 1).toString().padStart(2, "0")}-${d.getUTCDate().toString().padStart(2, "0")}`;
 }
 
 function formatTime(d, seconds) {
+  if (isNaN(d.getDate())) {
+    return "unknown";
+  }
   let output = `${d.getUTCHours().toString().padStart(2, "0")}:${d.getUTCMinutes().toString().padStart(2, "0")}`;
   if (seconds) {
     output += `:${d.getUTCSeconds().toString().padStart(2, "0")}`;
@@ -30,6 +36,9 @@ function formatTime(d, seconds) {
 }
 
 function formatDateTime(d, seconds) {
+  if (isNaN(d.getDate())) {
+    return "unknown";
+  }
   return formatDate(d) + " " + formatTime(d, seconds);
 }
 
