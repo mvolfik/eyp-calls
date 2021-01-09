@@ -85,7 +85,7 @@
 </head>
 <body>
 <p id="info">
-    last code update 2021-01-08. something doesn’t work? hit me up:
+    version: <span id="server-version">loading&hellip;</span> | something doesn’t work? hit me up:
     <a href="mailto:volf@eyp.cz" target="_blank">volf@eyp.cz</a>
 </p>
 <p style="clear: both; margin-left: 1em;">
@@ -167,6 +167,16 @@
 
 
   function processCallsData(data) {
+    const version = $("#server-version");
+    const link = document.createElement("a");
+    link.href = `https://github.com/mvolfik/eyp-calls/tree/${data["commit"]}`;
+    link.text = data["commit"].substring(0, 7);
+    link.target = "_blank";
+    link.title = `Committed on ${data["commit_date"]}`;
+    const build = document.createElement("span");
+    build.innerText = data["build_time"];
+    build.title = `Build id ${data["build_id"]}`;
+    version.replaceWith([link, document.createTextNode(" built on "), build]);
     $("#last-load").text(data["last_scrape"]);
     console.log("Data loaded successfully, processing");
     const calls = data["calls"];
