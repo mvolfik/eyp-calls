@@ -29,8 +29,8 @@ function formatTime(d, seconds) {
   return output;
 }
 
-function formatDateTime(d) {
-  return formatDate(d) + " " + formatTime(d);
+function formatDateTime(d, seconds) {
+  return formatDate(d) + " " + formatTime(d, seconds);
 }
 
 
