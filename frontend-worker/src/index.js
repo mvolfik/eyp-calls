@@ -18,13 +18,13 @@ let calls;
 
 
 function formatDate(d) {
-  return `${d.getFullYear().toString().padStart(4, "0")}-${(d.getMonth() + 1).toString().padStart(2, "0")}-${d.getDate().toString().padStart(2, "0")}`;
+  return `${d.getUTCFullYear().toString().padStart(4, "0")}-${(d.getUTCMonth() + 1).toString().padStart(2, "0")}-${d.getUTCDate().toString().padStart(2, "0")}`;
 }
 
 function formatTime(d, seconds) {
-  let output = `${d.getHours().toString().padStart(2, "0")}:${d.getMinutes().toString().padStart(2, "0")}`;
+  let output = `${d.getUTCHours().toString().padStart(2, "0")}:${d.getUTCMinutes().toString().padStart(2, "0")}`;
   if (seconds) {
-    output += `:${d.getSeconds().toString().padStart(2, "0")}`;
+    output += `:${d.getUTCSeconds().toString().padStart(2, "0")}`;
   }
   return output;
 }
