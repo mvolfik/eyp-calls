@@ -204,8 +204,9 @@
     console.log("Done");
   }
 
-  function processError() {
-    $("#loading").innerText("Something went wrong during data loading. Reload this page to try again");
+  function processError(e) {
+    console.error(e);
+    $("#loading").text("Something went wrong during data loading. Please reload this page to try again.").css("font-weight", "bold");
   }
 
   /**
