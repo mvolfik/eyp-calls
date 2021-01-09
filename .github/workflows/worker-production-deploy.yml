@@ -1,0 +1,29 @@
+name: Deploy to Production Worker
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "frontend-worker/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Store metadata
+        run: |
+          echo "export const COMMIT           = '${{ github.sha }}';"                          > frontend-worker/src/metadata.js
+          echo "export const COMMIT_TIMESTAMP = '${{ github.event.head_commit.timestamp }}';" >> frontend-worker/src/metadata.js
+          echo "export const BUILD_ID         = '${{ github.run_id }}';"                      >> frontend-worker/src/metadata.js
+          echo "export const BUILD_TIMESTAMP  = '$(date --utc --iso-8601=seconds)';"          >> frontend-worker/src/metadata.js
+
+      - name: Publish
+        uses: cloudflare/wrangler-action@1.3.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          workingDirectory: frontend-worker

@@ -1,4 +1,5 @@
 import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
+import {BUILD_ID, BUILD_TIMESTAMP, COMMIT, COMMIT_TIMESTAMP} from "./metadata";
 
 /**
  * The DEBUG flag will do two things that help during development:
@@ -10,6 +11,8 @@ import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
 const DEBUG = false;
 
 /* global STORAGE, APIKEY, ADMIN_SECRET */
+const BUILD_TIME = formatDateTime(new Date(BUILD_TIMESTAMP), true);
+const COMMIT_DATE = formatDate(new Date(COMMIT_TIMESTAMP));
 const PROJECT_ID = "487035";
 const SCRAPER_NAME = "call_spider";
 
@@ -135,6 +138,10 @@ async function serveData() {
     lastJobFinished = newLastJobFinished;
   }
   let data = JSON.stringify({
+    "commit": COMMIT,
+    "commit_date": COMMIT_DATE,
+    "build_id": BUILD_ID,
+    "build_time": BUILD_TIME,
     "last_scrape": formatDateTime(lastJobFinished),
     "calls": calls
   });
