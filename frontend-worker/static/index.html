@@ -46,8 +46,16 @@
 
         #matrix > tbody > tr > * {
             text-align: center;
-            border: 1px solid black;
+            border: 1px dotted black;
             height: 100%;
+        }
+
+        #matrix > tbody > tr > :not(.empty) {
+            border: 1px solid #555;
+        }
+
+        #matrix > tbody > tr:hover > * {
+            background-color: #eee;
         }
 
         #matrix > tbody > tr > th {
@@ -152,7 +160,7 @@
       for (const j in eventTypes) {
         const count = matrix[i][j];
         if (count === 0) {
-          row += `<td>—</td>`
+          row += '<td class="empty">—</td>';
         } else {
           const et = eventTypes[j];
           const countString = `(${count})`.padStart(5, " ").replace(" ", "&nbsp;");
