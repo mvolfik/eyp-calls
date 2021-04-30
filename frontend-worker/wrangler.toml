@@ -1,5 +1,5 @@
 name = "eyp-calls"
-type = "javascript"
+type = "webpack"
 account_id = "5226d1d2ab2fd3f224b592dd0da3f87d"
 
 workers_dev = true
