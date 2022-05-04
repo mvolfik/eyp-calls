@@ -1,3 +1,7 @@
+**This project is discontinued: Members Platform now requires login with captcha verification. The reason for that is beyond my understanding.**
+
+*Also, back when I created this, I even reached out to GB of EYP, which responded that all the features from here will be included in the new platform. We all can see how that went :)))*
+
 # [eyp-calls.tk](https://eyp-calls.tk)
 
 A simple list of all calls that are currently up on the [Members Platform](https://members.eyp.org), allows for sorting
